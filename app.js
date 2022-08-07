@@ -6,8 +6,14 @@ require("dotenv").config();
 const notFound = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 // middleware
-app.use(express.static("./public"));
-app.use(express.json());
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("./public"));
+  app.use(express.json());
+} else {
+  app.get("/", (req, res) => {
+    res.send("API RUNNING");
+  });
+}
 
 //routes
 
